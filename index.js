@@ -28,8 +28,11 @@ async function run() {
 
   const toyCollection=client.db("toys").collection("toyCollection")
 
-  app.get('/toys',async(req,res)=>{
-    const cursor=toyCollection.find();
+  app.get('/toys/:categorie',async(req,res)=>{
+    const categorie=req.params.categorie;
+    // console.log(categorie);
+    const query = { categories:`${categorie}` };
+    const cursor=toyCollection.find(query);
     const result=await cursor.toArray();
     res.send(result);
   })
