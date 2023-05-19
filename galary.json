@@ -1,0 +1,23 @@
+ [
+    {
+      "name": "Iron Man Action Figure",
+      "description": "Highly detailed Iron Man action figure with articulated joints and light-up features.",
+      "image_url": "https://images.unsplash.com/photo-1635863138275-d9b33299680b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1031&q=80"
+    },
+    {
+      "name": "Captain America Shield",
+      "description": "A replica of Captain America's iconic shield made from durable materials with authentic design.",
+      "image_url": "https://images.unsplash.com/photo-1624213111452-35e8d3d5cc18?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=726&q=80"
+    },
+    {
+      "name": "Thor's Hammer Mjolnir",
+      "description": "A realistic replica of Thor's hammer with sound effects and a sturdy handle.",
+      "image_url": "https://images.unsplash.com/photo-1655213675278-dfa74aa03322?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+    },
+    {
+      "name": "Hulk Smash Action Figure",
+      "description": "Large Hulk action figure with smashing action and interchangeable facial expressions.",
+      "image_url": "https://images.unsplash.com/photo-1608272841063-67f50df421c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+    }
+    
+  ]
