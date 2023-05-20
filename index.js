@@ -2,9 +2,9 @@ const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
-const galary =require('./galary.json');
-const app =express();
-const port =process.env.PORT ||5000;
+const galary = require('./galary.json');
+const app = express();
+const port = process.env.PORT || 5000;
 
 // middleWere 
 app.use(express.json());
@@ -26,16 +26,40 @@ const client = new MongoClient(uri, {
 async function run() {
 
 
-  const toyCollection=client.db("toys").collection("toyCollection")
-
-  app.get('/toys/:categorie',async(req,res)=>{
-    const categorie=req.params.categorie;
-    // console.log(categorie);
-    const query = { categories:`${categorie}` };
-    const cursor=toyCollection.find(query);
-    const result=await cursor.toArray();
+  const toyCollection = client.db("toys").collection("toyCollection")
+  app.get('/toys', async (req, res) => {
+    const cursor = toyCollection.find();
+    const result = await cursor.toArray();
     res.send(result);
   })
+  app.get('/toys/:categorie', async (req, res) => {
+    const categorie = req.params.categorie;
+    // console.log(categorie);
+    const query = { categories: `${categorie}` };
+    const cursor = toyCollection.find(query);
+    const result = await cursor.toArray();
+    res.send(result);
+  })
+  app.get('/toys', async (req, res) => {
+    console.log(req.query.email);
+    const query = { email: `${req.query.email}` };
+    const cursor = toyCollection.find(query);
+    const result = await cursor.toArray();
+    res.send(result)
+  })
+
+  app.post('/toys', async (req, res) => {
+    const toy = req.body;
+    console.log(toy);
+    const result = await toyCollection.insertOne(toy);
+    res.send(result);
+  })
+  app.delete('/toys/:id',async(req,res)=>{
+    const id =req.params.id;
+    const query={_id: new ObjectId(id)};
+    const result = await toyCollection.deleteOne(query);
+    res.send(result)
+})
 
 
   try {
@@ -52,13 +76,13 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/',(req,res)=>{
-    res.send("Avengers is running")
+app.get('/', (req, res) => {
+  res.send("Avengers is running")
 })
-app.get('/galary',(req,res)=>{
-    res.send(galary)
+app.get('/galary', (req, res) => {
+  res.send(galary)
 })
 
-app.listen(port,()=>{
-    console.log(`Avengers running on ${port}`);
+app.listen(port, () => {
+  console.log(`Avengers running on ${port}`);
 })
