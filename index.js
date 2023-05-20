@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 const galary = require('./galary.json');
@@ -25,46 +25,61 @@ const client = new MongoClient(uri, {
 
 async function run() {
 
-
-  const toyCollection = client.db("toys").collection("toyCollection")
-  app.get('/toys', async (req, res) => {
-    const cursor = toyCollection.find();
-    const result = await cursor.toArray();
-    res.send(result);
-  })
-  app.get('/toys/:categorie', async (req, res) => {
-    const categorie = req.params.categorie;
-    // console.log(categorie);
-    const query = { categories: `${categorie}` };
-    const cursor = toyCollection.find(query);
-    const result = await cursor.toArray();
-    res.send(result);
-  })
-  app.get('/toys', async (req, res) => {
-    console.log(req.query.email);
-    const query = { email: `${req.query.email}` };
-    const cursor = toyCollection.find(query);
-    const result = await cursor.toArray();
-    res.send(result)
-  })
-
-  app.post('/toys', async (req, res) => {
-    const toy = req.body;
-    console.log(toy);
-    const result = await toyCollection.insertOne(toy);
-    res.send(result);
-  })
-  app.delete('/toys/:id',async(req,res)=>{
-    const id =req.params.id;
-    const query={_id: new ObjectId(id)};
-    const result = await toyCollection.deleteOne(query);
-    res.send(result)
-})
-
+ 
 
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+
+
+    const toyCollection =client.db("toys").collection("toyCollection")
+    
+
+    app.get('/toys/:categorie', async(req, res) => {
+      const categorie = req.params.categorie;
+      // console.log(categorie);
+      const query = { categories: `${categorie}` };
+      const cursor = toyCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
+    app.get('/toys', async (req, res) => {
+      const cursor = toyCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    // toy
+    const addToyCollection =client.db("toy").collection("addToyCollection")
+    app.get('/toy', async(req, res) => {
+      // console.log(req.query.email);
+      const query ={email:`${req.query.email}`};
+      const cursor =addToyCollection.find(query)
+      const result =await cursor.toArray();
+      res.send(result)
+    })
+  
+   
+    app.post('/toy', async(req, res) => {
+      const toy = req.body;
+      // console.log(toy);
+      const result = await addToyCollection.insertOne(toy);
+      res.send(result);
+    })
+    app.delete('/toy/:id',async(req,res)=>{
+      const id =req.params.id;
+      const query={_id:new ObjectId(id)}
+      const result =await addToyCollection.deleteOne(query);
+      res.send(result);
+
+    })
+
+
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
