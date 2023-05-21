@@ -6,11 +6,14 @@ const galary = require('./galary.json');
 const app = express();
 const port = process.env.PORT || 5000;
 
+
 // middleWere 
 app.use(express.json());
 app.use(cors());
 
 //
+
+   
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.3kcnoe6.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -23,33 +26,50 @@ const client = new MongoClient(uri, {
   }
 });
 
+const toyCollection =client.db("toys").collection("toyCollection")
+
+
+
 async function run() {
 
+  app.get('/toys', async (req, res) => {
+    const cursor = toyCollection.find();
+    const result = await cursor.toArray();
+    res.send(result);
+  });
  
-
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
 
-
-    const toyCollection =client.db("toys").collection("toyCollection")
+    app.get('/to',async(req,res)=>{
+      const id =req.query.id;
+      // console.log(id);
+      const query ={_id:new ObjectId(id)};
+      const options = {
+        projection: { picture: 1, name: 1,description:1,sellerName:1,categories:1,
+          price:1,rating:1 },
+      };
+      const cursor =await toyCollection.findOne(query,options)
+      // const result =await cursor;
+      res.send(cursor)
+     })
     
+
 
     app.get('/toys/:categorie', async(req, res) => {
       const categorie = req.params.categorie;
       // console.log(categorie);
-      const query = { categories: `${categorie}` };
+      const query = { categories: `${categorie}`};
       const cursor = toyCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
 
     })
-    app.get('/toys', async (req, res) => {
-      const cursor = toyCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
-    })
+
+    
+    
 
     // toy
     const addToyCollection =client.db("toy").collection("addToyCollection")
