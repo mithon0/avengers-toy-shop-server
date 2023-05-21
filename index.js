@@ -9,7 +9,12 @@ const port = process.env.PORT || 5000;
 
 // middleWere 
 app.use(express.json());
-app.use(cors());
+const corsConfig = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  }
+  app.use(cors(corsConfig))
 
 //
 
@@ -34,13 +39,13 @@ async function run() {
 
   app.get('/toys', async (req, res) => {
     const cursor = toyCollection.find();
-    const result = await cursor.toArray();
-    res.send(result);
+    const rrsrrs = await cursor.toArray();
+    res.send(rrsrrs);
   });
  
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    //  client.connect();
 
 
     app.get('/to',async(req,res)=>{
@@ -52,7 +57,7 @@ async function run() {
           price:1,rating:1 },
       };
       const cursor =await toyCollection.findOne(query,options)
-      // const result =await cursor;
+      // const rrsrrs =await cursor;
       res.send(cursor)
      })
     
@@ -63,8 +68,8 @@ async function run() {
       // console.log(categorie);
       const query = { categories: `${categorie}`};
       const cursor = toyCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
+      const rrsrrs = await cursor.toArray();
+      res.send(rrsrrs);
 
     })
 
@@ -77,8 +82,8 @@ async function run() {
       // console.log(req.query.email);
       const query ={email:`${req.query.email}`};
       const cursor =addToyCollection.find(query)
-      const result =await cursor.toArray();
-      res.send(result)
+      const rrsrrs =await cursor.toArray();
+      res.send(rrsrrs)
     })
 
     
@@ -87,14 +92,14 @@ async function run() {
     app.post('/toy', async(req, res) => {
       const toy = req.body;
       // console.log(toy);
-      const result = await addToyCollection.insertOne(toy);
-      res.send(result);
+      const rrsrrs = await addToyCollection.insertOne(toy);
+      res.send(rrsrrs);
     })
     app.delete('/toy/:id',async(req,res)=>{
       const id =req.params.id;
       const query={_id:new ObjectId(id)}
-      const result =await addToyCollection.deleteOne(query);
-      res.send(result);
+      const rrsrrs =await addToyCollection.deleteOne(query);
+      res.send(rrsrrs);
 
     })
     app.patch('/toy/:id', async(req,res)=>{
@@ -106,8 +111,8 @@ async function run() {
           status: updateToys.status
         },
       };
-      const result = await addToyCollection.updateOne(filter,updateDoc)
-      res.send(result)
+      const rrsrrs = await addToyCollection.updateOne(filter,updateDoc)
+      res.send(rrsrrs)
     })
 
 
