@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 });
 
 const toyCollection =client.db("toys").collection("toyCollection")
-
+const addToyCollection =client.db("toy").collection("addToyCollection")
 
 
 async function run() {
@@ -72,7 +72,7 @@ async function run() {
     
 
     // toy
-    const addToyCollection =client.db("toy").collection("addToyCollection")
+    
     app.get('/toy', async(req, res) => {
       // console.log(req.query.email);
       const query ={email:`${req.query.email}`};
@@ -129,7 +129,7 @@ app.get('/', (req, res) => {
   res.send("Avengers is running")
 })
 app.get('/galary', (req, res) => {
-  res.send(galary)
+  res.send(galary);
 })
 
 app.listen(port, () => {
