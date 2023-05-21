@@ -80,6 +80,8 @@ async function run() {
       const result =await cursor.toArray();
       res.send(result)
     })
+
+    
   
    
     app.post('/toy', async(req, res) => {
@@ -94,6 +96,18 @@ async function run() {
       const result =await addToyCollection.deleteOne(query);
       res.send(result);
 
+    })
+    app.patch('/toy/:id', async(req,res)=>{
+      const id =req.params.id;
+      const filter = {_id:new ObjectId(id)};
+      const updateToys =req.body;
+      const updateDoc = {
+        $set: {
+          status: updateToys.status
+        },
+      };
+      const result = await addToyCollection.updateOne(filter,updateDoc)
+      res.send(result)
     })
 
 
